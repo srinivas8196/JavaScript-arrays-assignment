@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <title>Materialize Tabs</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul class="tabs">
+            <li class="tab col s4"><a href="#question1">Question 1</a></li>
+            <li class="tab col s4"><a href="#question2">Question 2</a></li>
+            <li class="tab col s4"><a href="#question3">Question 3</a></li>
+            <li class="tab col s4"><a href="#question4">Question 4</a></li>
+            <li class="tab col s4"><a href="#question5">Question 5</a></li>
+        </ul>
+
+        <!-- Question 1: Y2K Problem -->
+        <div id="question1" class="col s12">
+            <h5>Y2K Problem</h5>
+            <form id="y2kForm">
+                <div class="input-field col s12">
+                    <input type="text" id="y2kInput" placeholder="Enter 2-digit year">
+                    <label for="y2kInput">Year</label>
+                </div>
+                <button class="btn waves-effect waves-light" type="button" onclick="convertY2K()">Submit</button>
+            </form>
+            <div class="output" id="y2kOutput"></div>
+        </div>
+
+        <!-- Question 2: Board Game Bonus -->
+        <div id="question2" class="col s12">
+            <h5>Board Game Bonus</h5>
+            <form id="bonusForm">
+                <div class="input-field col s6">
+                    <input type="number" id="positionA" placeholder="Your position">
+                    <label for="positionA">Your Position</label>
+                </div>
+                <div class="input-field col s6">
+                    <input type="number" id="positionB" placeholder="Friend's position">
+                    <label for="positionB">Friend's Position</label>
+                </div>
+                <button class="btn waves-effect waves-light" type="button" onclick="possibleBonus()">Submit</button>
+            </form>
+            <div class="output" id="bonusOutput"></div>
+        </div>
+
+        <!-- Question 3: Array of Multiples -->
+        <div id="question3" class="col s12">
+            <h5>Array of Multiples</h5>
+            <form id="multiplesForm">
+                <div class="input-field col s6">
+                    <input type="number" id="num" placeholder="Enter a number">
+                    <label for="num">Number</label>
+                </div>
+                <div class="input-field col s6">
+                    <input type="number" id="length" placeholder="Enter array length">
+                    <label for="length">Array Length</label>
+                </div>
+                <button class="btn waves-effect waves-light" type="button" onclick="arrayOfMultiples()">Submit</button>
+            </form>
+            <div class="output" id="multiplesOutput"></div>
+        </div>
+
+        <!-- Question 4: Longest Consecutive Subsequence -->
+        <div id="question4" class="col s12">
+            <h5>Longest Consecutive Subsequence</h5>
+            <form id="consecutiveForm">
+                <div class="input-field col s12">
+                    <input type="text" id="consecutiveInput" placeholder="Enter numbers (comma-separated)">
+                    <label for="consecutiveInput">Numbers</label>
+                </div>
+                <button class="btn waves-effect waves-light" type="button" onclick="consecutiveSubsequence()">Submit</button>
+            </form>
+            <div class="output" id="consecutiveOutput"></div>
+        </div>
+
+        <!-- Question 5: Nearest Vowel -->
+        <div id="question5" class="col s12">
+            <h5>Nearest Vowel</h5>
+            <form id="vowelForm">
+                <div class="input-field col s12">
+                    <input type="text" id="vowelInput" placeholder="Enter a letter">
+                    <label for="vowelInput">Letter</label>
+                </div>
+                <button class="btn waves-effect waves-light" type="button" onclick="nearestVowel()">Submit</button>
+            </form>
+            <div class="output" id="vowelOutput"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        M.AutoInit();
+
+        // Question 1: Y2K Problem
+        function convertY2K() {
+            const input = document.getElementById('y2kInput').value;
+            const year = parseInt(input);
+            const convertedYear = year < 35 ? 2000 + year : 1900 + year;
+            document.getElementById('y2kOutput').innerText = convertedYear;
+        }
+
+        // Question 2: Board Game Bonus
+        function possibleBonus() {
+            const positionA = parseInt(document.getElementById('positionA').value);
+            const positionB = parseInt(document.getElementById('positionB').value);
+            const diff = Math.abs(positionA - positionB);
+            document.getElementById('bonusOutput').innerText = diff > 0 && diff <= 6 ? 'true' : 'false';
+        }
+
+        // Question 3: Array of Multiples
+        function arrayOfMultiples() {
+            const num = parseInt(document.getElementById('num').value);
+            const length = parseInt(document.getElementById('length').value);
+            const multiples = Array.from({ length }, (_, i) => num * (i + 1));
+            document.getElementById('multiplesOutput').innerText = multiples.join(', ');
+        }
+
+        // Question 4: Longest Consecutive Subsequence
+        function consecutiveSubsequence() {
+            const input = document.getElementById('consecutiveInput').value;
+            const numbers = input.split(',').map(num => parseInt(num.trim()));
+            numbers.sort((a, b) => a - b);
+            let maxCount = 1;
+            let currentCount = 1;
+
+            for (let i = 1; i < numbers.length; i++) {
+                if (numbers[i] === numbers[i - 1] + 1) {
+                    currentCount++;
+                    maxCount = Math.max(maxCount, currentCount);
+                } else {
+                    currentCount = 1;
+                }
+            }
+
+            document.getElementById('consecutiveOutput').innerText = maxCount;
+        }
+
+        // Question 5: Nearest Vowel
+        function nearestVowel() {
+            const input = document.getElementById('vowelInput').value.toLowerCase();
+            const vowels = ['a', 'e', 'i', 'o', 'u'];
+            let nearest = vowels[0];
+
+            for (const vowel of vowels) {
+                if (Math.abs(input.charCodeAt(0) - vowel.charCodeAt(0)) < Math.abs(input.charCodeAt(0) - nearest.charCodeAt(0))) {
+                    nearest = vowel;
+                }
+            }
+
+            document.getElementById('vowelOutput').innerText = nearest;
+        }
+    </script>
+</body>
+</html>
